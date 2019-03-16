@@ -8,49 +8,46 @@
         </div>
         <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
     </a>
-
+    
+    <?php 
+        $role_id   = $this->session->userdata('roles_id');
+        $queryMenu = "  SELECT `users_menu`.`id`,`menu`
+                        FROM `users_menu` JOIN `users_access_menu`
+                          ON `users_menu`.`id` = `users_access_menu`.`menu_id`
+                        WHERE `users_access_menu`.`roles_id` = $role_id
+                      ORDER BY `users_access_menu`.`id` ASC
+                    ";
+        $menus = $this->db->query($queryMenu)->result_array();
+     ?> 
     <!-- Divider -->
-<?php if ($this->session->userdata('roles_id') == 1) : ?>
     <hr class="sidebar-divider">
-
+    <!-- Looping Menu -->
+    <?php foreach ($menus as $menu) :?>
     <div class="sidebar-heading">
-        Administrator
+            <?= $menu['menu'] ?>
     </div>
-
-    <!-- Nav Item - Dashboard -->
-    <li class="nav-item">
-        <a class="nav-link" href="#">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span></a>
+    <!-- Submenu  -->
+    <?php 
+    $menuId = $menu['id'];
+    $querySubMenu = "
+                SELECT *
+                  FROM `users_sub_menu`
+                 WHERE `menu_id` = $menuId
+                   AND `is_active` = 1
+                 ";
+    $subMenus = $this->db->query($querySubMenu)->result_array();
+     ?>
+    <?php foreach ($subMenus as $subMenu) : ?>
+        <!-- Nav Item - Dashboard -->
+     <li class="nav-item">
+        <a class="nav-link" href="<?= base_url($subMenu['url']) ?>">
+            <i class="<?= $subMenu['icon'] ?>"></i>
+            <span><?= $subMenu['title'] ?></span></a>
     </li>
-<?php endif; ?>
-    <!-- Divider -->
-    <div class="sidebar-heading">
-        user
-    </div>
-
-    <!-- Nav Item - My Profile -->
-    <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('user') ?>">
-            <i class="fas fa-fw fa-user-alt"></i>
-            <span>My Profile</span></a>
-    </li>
-
-    <!-- Nav Item - Edit Profile -->
-    <li class="nav-item">
-        <a class="nav-link" href="#">
-            <i class="fas fa-fw fa-user-edit"></i>
-            <span>Edit Profile</span></a>
-    </li>
-
-    <!-- Nav Item - Change Password -->
-    <li class="nav-item">
-        <a class="nav-link" href="#">
-            <i class="fas fa-fw fa-key"></i>
-            <span>Change Password</span></a>
-    </li>
-
-    <hr class="sidebar-divider my-0 d-none d-md-block">
+    <?php endforeach; ?>
+    <!-- divider -->
+    <hr class="sidebar-divider">
+    <?php endforeach; ?>
     <!-- Nav Item - Log out -->
     <li class="nav-item">
         <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
