@@ -1,7 +1,7 @@
 .DS_Store
-note.txt
 application/cache/*
 !application/cache/index.html
+!note.txt
 
 application/logs/*
 !application/logs/index.html
