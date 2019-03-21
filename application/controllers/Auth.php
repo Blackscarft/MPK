@@ -11,14 +11,6 @@ class Auth extends CI_Controller
 
 	public function index() //login page view
 	{
-
-		if(!empty($this->session->userdata('roles_id')) ){
-			if($this->session->userdata('roles_id') == 1){
-				redirect('admin');
-			}else{
-				redirect('user');
-			}
-		}
 		
 		$this->form_validation->set_rules('email','Email','trim|required|valid_email');
 		$this->form_validation->set_rules('password','Password','trim|required');
