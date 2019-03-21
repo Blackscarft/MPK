@@ -7,13 +7,14 @@ class Admin extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		is_login();
 	}
 
 	public function index()
 	{
 
-		$data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
 		$data['title'] = 'Dashboard';
+		$data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/sidebar');
 		$this->load->view('templates/topbar');
