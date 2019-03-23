@@ -9,6 +9,8 @@ application/logs/*
 !application/*/.htaccess
 
 composer.lock
+contributing.md
+license.txt
 note.txt
 user_guide
 user_guide_src/build/*
