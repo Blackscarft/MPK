@@ -10,7 +10,7 @@ application/logs/*
 
 composer.lock
 contributing.md
-.editoreconfig
+.editorconfig
 license.txt
 note.txt
 user_guide
