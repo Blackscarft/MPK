@@ -47,6 +47,34 @@
  <!-- Custom scripts for all pages-->
  <script src="<?= base_url('assets/') ?>js/sb-admin-2.min.js"></script>
 
+ <script>
+    // cari custom file input ketika di ubah isinya
+    $('.custom-file-input').on('change', function(){
+        //ambli nama filenya
+        let filename = $(this).val().split('\\').pop();
+        //filenya simpan di inputnya
+        $(this).next('.custom-file-label').addClass("selected").html(filename);
+    });
+
+    $('.change-access').on('click', function() {
+        const menuid = $(this).data('menu'); //ambil dari "data-....." di view
+        const roleid = $(this).data('role');
+
+        $.ajax({
+            url : "<?= base_url('admin/changeaccess') ?>", //post atau tujuan
+            type : 'post', // type post ,get, dl;
+            data : {
+                // objeck data : variable const
+                menuid : menuid,
+                roleid : roleid
+            },
+            success : function(){
+                document.location.href = "<?= base_url('admin/roleaccess/'); ?>" + roleid;
+            }
+        });
+    });
+ </script>
  </body>
 
  </html> 
+

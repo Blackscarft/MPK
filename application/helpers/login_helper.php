@@ -18,4 +18,16 @@ function is_login()
 			redirect('auth/blocked');
 		}
 	}
+
+	function check_access($role_id,$menu_id){
+			$ci = get_instance(); // unutuk memanggil library CI pada file ini
+
+			$ci->db->where('roles_id',$role_id);
+			$ci->db->where('menu_id',$menu_id);
+			$result = $ci->db->get('users_access_menu');
+
+			if($result->num_rows() > 0){
+				return "checked='checked'";
+			}
+	}
 }
