@@ -18,9 +18,19 @@
     <!-- Custom styles for this template-->
     <link href="<?= base_url('assets/') ?>css/sb-admin-2.min.css" rel="stylesheet">
 
+    <!-- daterangepicker css-->
+    <link rel="stylesheet" href="<?= base_url('assets/') ?>css/daterangepicker.css">
+
+    <!-- data table css -->
+    <link href="<?= base_url('assets/') ?>vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+    <!-- select2 js -->
+    <link href="<?= base_url('assets/') ?>css/select2.css" rel="stylesheet">
+
+
 </head>
 
 <body id="page-top">
 
     <!-- Page Wrapper -->
-    <div id="wrapper"> 
+    <div id="wrapper">
