@@ -1,6 +1,11 @@
+<!-- Notification -->
+<div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 10px;" class="tNotif">
+    <div style="position: absolute; top: 0; right: 20px; z-index:999">
+        <div id="toast"></div>
+    </div>
+</div>
 <!-- Begin Page Content -->
 <div class="container-fluid">
-
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800"><?= $title ?></h1>
     <div class="row">
@@ -8,7 +13,6 @@
             <?= $this->session->flashdata('message') ?>
         </div>
     </div>
-
     <!-- Data table -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">

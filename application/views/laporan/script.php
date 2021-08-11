@@ -22,6 +22,9 @@
             $(this).val('');
         });
 
+        // all data
+
+
 
         // Handle filter
 
@@ -53,7 +56,6 @@
                         </tr>
                         `)).draw();
                     });
-
 
                     $('#FilterUlang').show()
                     $('#filter').hide()

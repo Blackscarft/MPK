@@ -48,7 +48,8 @@ class Mpk_model extends CI_Model
             'mulai' => date('Y-m-d', strtotime($this->input->post('startDate'))),
             'selesai' => date('Y-m-d', strtotime($this->input->post('endDate'))),
             'uraian' => htmlspecialchars($this->input->post('uraian', true)),
-            'status' => 1
+            'status' => 1,
+            'notif' => 1
         ];
 
         $this->db->insert('mpk', $data);
@@ -71,5 +72,27 @@ class Mpk_model extends CI_Model
     public function delete($id)
     {
         $this->db->delete('mpk', ['id' => $id]);
+    }
+
+    public function getNotif()
+    {
+        $query = "SELECT pelanggan.nama AS pelanggan,area.nama AS area, mpk.mulai, mpk.selesai, mpk.uraian, mpk.status,mpk.id
+                FROM area,pelanggan,mpk 
+                WHERE pelanggan.id = mpk.pelanggan 
+                AND area.id = mpk.area
+                AND (mpk.status = 4 OR mpk.status = 5)
+                AND mpk.notif = 1
+                ORDER BY mpk.id DESC
+                ";
+        return $this->db->query($query);
+    }
+
+    public function notifUpdate($id)
+    {
+        $data = [
+            'notif' => 0
+        ];
+        $this->db->where('id', $id);
+        $this->db->update('mpk', $data);
     }
 }

@@ -19,7 +19,30 @@ class Operasional_model extends CI_Model
     public function konfirmasi($id)
     {
         $data = [
-            'status' => 3
+            'status' => 3,
+            'notif' => 1
+        ];
+        $this->db->where('id', $id);
+        $this->db->update('mpk', $data);
+    }
+
+    public function getNotif()
+    {
+        $query = "SELECT pelanggan.nama AS pelanggan,area.nama AS area, mpk.mulai, mpk.selesai, mpk.uraian, mpk.status,mpk.id
+                FROM area,pelanggan,mpk 
+                WHERE pelanggan.id = mpk.pelanggan 
+                AND area.id = mpk.area
+                AND mpk.status = 2
+                AND mpk.notif = 1
+                ORDER BY mpk.id DESC
+                ";
+        return $this->db->query($query);
+    }
+
+    public function notifUpdate($id)
+    {
+        $data = [
+            'notif' => 0
         ];
         $this->db->where('id', $id);
         $this->db->update('mpk', $data);

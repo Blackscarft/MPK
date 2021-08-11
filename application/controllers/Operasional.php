@@ -24,6 +24,7 @@ class Operasional extends CI_Controller
         $this->load->view('templates/topbar');
         $this->load->view('operasional/index', $data);
         $this->load->view('templates/footer');
+        $this->load->view('operasional/script');
         $this->load->view('script/modalUraian');
     }
 
@@ -49,5 +50,71 @@ class Operasional extends CI_Controller
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Mpk di konfirmasi</div>');
             redirect('operasional/mpk');
         }
+    }
+
+    public function notif()
+    {
+        $output = '';
+
+        $data = $this->operasional_model->getNotif();
+        if ($data->num_rows() > 0) {
+            $mpk = $data->result_array();
+            foreach ($mpk as $row) {
+                $output .= '
+                        <div role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-autohide="false">
+                            <div class="toast-header">
+                                <i class="fas fa-file-alt text-dark mr-3"></i>
+                                <strong class="mr-auto">Mpk Baru</strong>
+                                <small>11 mins ago</small>
+                                <button type="button" class="ml-2 mb-1 close updateNotif" data-dismiss="toast" aria-label="Close" id="" data-id=' . $row['id'] . '>
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="toast-body">
+                                <span style="cursor:pointer" class="text-dark updateNotifLink" data-id=' . $row['id'] . ' >Area : ' . $row["area"] . ', Tgl mulai : ' . $row["mulai"] . '</span>
+                            </div>
+                        </div>
+                        
+                    ';
+            }
+
+            $output .= '
+                <script>
+                    $(".updateNotif").on("click", function() {
+                        let id = $(this).data("id");
+                        $.ajax({
+                            url: "' . base_url('/operasional/updateNotif/') . '" + id,
+                            method: "POST",
+                            data: {
+                                "notif": id
+                            }
+                        });
+                    });
+                    $(".updateNotifLink").on("click", function() {
+                        let id = $(this).data("id");
+                        $.ajax({
+                            url: "' . base_url('operasional/updateNotif/') . '" + id,
+                            method: "POST",
+                            data: {
+                                "notif": id
+                            }
+                        });
+                        document.location.href = "' . base_url('operasional/detail/') . '" + id;
+                    });
+                </script>
+            ';
+        } else {
+            $output = '';
+        }
+
+        $notif = array(
+            'notif' => $output
+        );
+        echo json_encode($notif);
+    }
+
+    public function updateNotif($id)
+    {
+        $this->operasional_model->notifUpdate($id);
     }
 }
